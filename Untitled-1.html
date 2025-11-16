@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aprendamos Juntos — 5° primaria</title>
+  <style>
+    :root{
+      --bg:#f6fbff; --card:#ffffff; --accent:#3aa3ff;
+      --accent2:#ff6fb6; --txt:#13324a; --muted:#6b7b8a;
+      --radius:14px; --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box;font-family: "Segoe UI", Roboto, system-ui, Arial;}
+    body{margin:0;background:
+      radial-gradient(1200px 600px at 10% 10%, #eaf7ff 0%, transparent 15%),
+      radial-gradient(900px 500px at 90% 90%, #ffeaf3 0%, transparent 12%),
+      var(--bg); color:var(--txt); -webkit-font-smoothing:antialiased;}
+    header{display:flex;align-items:center;gap:16px;padding:18px 24px;}
+    .logo{width:68px;height:68px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(51,122,193,0.18);}
+    h1{margin:0;font-size:20px}
+    .tag{color:var(--muted);font-size:13px}
+
+    main{padding:18px;display:grid;grid-template-columns:360px 1fr;gap:18px;max-width:1200px;margin:20px auto;}
+    nav.card, .panel.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(20,30,50,0.06);}
+    nav.card{position:sticky;top:18px;height: fit-content;}
+    nav button{display:flex;align-items:center;gap:12px;width:100%;padding:10px;border-radius:10px;border:0;background:transparent;font-weight:600;color:var(--txt);cursor:pointer;margin-bottom:8px}
+    nav button:hover{background:linear-gradient(90deg,rgba(58,163,255,0.08),rgba(255,111,182,0.04));}
+    .active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff !important;box-shadow:0 8px 26px rgba(58,163,255,0.18);}
+
+    .panel.card{padding:12px 16px;}
+    .hero{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px;border-radius:12px;background:linear-gradient(90deg,rgba(58,163,255,0.06),rgba(255,111,182,0.03));margin-bottom:12px}
+    .hero .left{max-width:70%}
+    .cta{background:var(--accent);color:#fff;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(58,163,255,0.14)}
+    section{margin-top:10px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+
+    .card-small{background:var(--glass);backdrop-filter:blur(6px);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.5)}
+    .small-title{font-weight:700;margin:0 0 8px 0}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Quiz & Games styles */
+    .center{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
+    .quiz-answers button{display:block;margin:8px 0;width:100%;padding:10px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);cursor:pointer;background:#fff;text-align:left}
+    .correct{background:#dff6e1;border-color:#64c28a}
+    .wrong{background:#ffd8d8;border-color:#ff5c5c}
+    .scores{display:flex;gap:8px;align-items:center}
+
+    /* Memory game */
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}
+    .card-game{aspect-ratio:1/1;border-radius:8px;background:#fff;display:grid;place-items:center;font-size:28px;cursor:pointer;box-shadow:0 6px 10px rgba(20,30,50,0.06)}
+    .flipped{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+
+    /* Drag & drop */
+    .dzone{display:flex;gap:12px;flex-wrap:wrap}
+    .item{padding:8px 12px;border-radius:8px;background:#fff;border:1px dashed rgba(20,30,50,0.06);cursor:grab}
+    .drop{min-height:80px;border-radius:10px;padding:10px;background:rgba(255,255,255,0.6);border:2px dashed rgba(0,0,0,0.06)}
+
+    /* Gallery */
+    .gallery{display:flex;gap:8px;flex-wrap:wrap}
+    .thumb{width:120px;height:80px;border-radius:8px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 16px rgba(20,30,50,0.08)}
+
+    footer{max-width:1200px;margin:22px auto;text-align:center;color:var(--muted);font-size:13px;padding-bottom:40px}
+    @media (max-width:880px){ main{grid-template-columns:1fr; padding:12px} nav.card{position:relative} .logo{width:54px;height:54px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">AJ</div>
+    <div>
+      <h1>Aprendamos Juntos</h1>
+      <div class="tag">5° primaria · Aprende jugando</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="card" aria-label="Navegación principal">
+      <button id="btnAprende" class="active">📘 Aprende</button>
+      <button id="btnJuega">🎮 Juega y Aprende</button>
+      <button id="btnPlaneta">🌎 Cuidemos el Planeta</button>
+      <button id="btnValores">💖 Valores</button>
+      <button id="btnNoticias">📰 Noticias</button>
+      <button id="btnGaleria">🖼️ Galería</button>
+      <button id="btnContact">✉️ Contáctanos</button>
+    </nav>
+
+    <section class="panel card" id="panel">
+      <div class="hero">
+        <div class="left">
+          <h2>Bienvenidos a Aprendamos Juntos</h2>
+          <p class="muted">Un lugar para aprender, jugar y cuidar el planeta. Explora las secciones con actividades interactivas.</p>
+        </div>
+        <div class="right">
+          <button class="cta" id="btnStart">Empezar</button>
+        </div>
+      </div>
+
+      <!-- Aprende -->
+      <div id="aprende">
+        <div class="cards">
+          <div class="card-small">
+            <p class="small-title">Matemáticas</p>
+            <p class="muted">Juegos para sumar, restar y practicar problemas.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('mat')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Español</p>
+            <p class="muted">Lecturas cortas y ejercicios de ortografía.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('esp')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Ciencias</p>
+            <p class="muted">Experimentos fáciles y curiosidades del mundo.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('cien')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Historia</p>
+            <p class="muted">Narraciones cortas sobre personajes y hechos importantes.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('hist')">Ver</button>
+          </div>
+        </div>
+
+        <section id="lesson" style="margin-top:12px"></section>
+      </div>
+
+      <!-- Juega y Aprende -->
+      <div id="juega" style="display:none">
+        <div class="cards">
+          <div class="card-small">
+            <p class="small-title">Quiz rápido</p>
+            <p class="muted">Contesta preguntas y gana estrellas.</p>
+            <button class="cta" onclick="showQuiz()">Jugar</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Memoria con emojis</p>
+            <p class="muted">Encuentra las parejas.</p>
+            <button class="cta" onclick="startMemory()">Jugar</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Recicla (arrastrar)</p>
+            <p class="muted">Arrastra los objetos a la canasta correcta.</p>
+            <button class="cta" onclick="startRecycle()">Jugar</button>
+          </div>
+        </div>
+
+        <div id="juegoArea" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Planeta -->
+      <div id="planeta" style="display:none">
+        <h3>Cómo cuidar la naturaleza</h3>
+        <ul>
+          <li>Separa la basura: orgánico, reciclable y rechazo.</li>
+          <li>Ahorra agua cerrando la llave cuando no la uses.</li>
+          <li>Planta un árbol o una planta en casa.</li>
+        </ul>
+        <div style="margin-top:12px" class="cards">
+          <div class="card-small">
+            <p class="small-title">Reto: Ahorra agua 7 días</p>
+            <p class="muted">Pequeñas acciones cada día.</p>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Manualidades con reciclaje</p>
+            <p class="muted">Convierte materiales en juguetes o arte.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valores -->
+      <div id="valores" style="display:none">
+        <h3>Valores que practicamos</h3>
+        <div class="cards">
+          <div class="card-small"><p class="small-title">Respeto</p><p class="muted">Trata a los demás como te gustaría que te traten.</p></div>
+          <div class="card-small"><p class="small-title">Amistad</p><p class="muted">Apoya a tus compañeros y comparte.</p></div>
+          <div class="card-small"><p class="small-title">Responsabilidad</p><p class="muted">Cumple tus tareas y ayuda en casa.</p></div>
+          <div class="card-small"><p class="small-title">Honestidad</p><p class="muted">Di la verdad y sé justo.</p></div>
+        </div>
+      </div>
+
+      <!-- Noticias -->
+      <div id="noticias" style="display:none">
+        <h3>Noticias escolares</h3>
+        <div id="newsList">
+          <p>📅 Feria de ciencias - 12 de diciembre</p>
+          <p>🏆 Concurso de lectura - Inscripciones abiertas</p>
+        </div>
+      </div>
+
+      <!-- Galería -->
+      <div id="galeria" style="display:none">
+        <h3>Galería de la escuela</h3>
+        <input type="file" id="imgUpload" accept="image/*" />
+        <div class="gallery" id="galleryArea"></div>
+      </div>
+
+      <!-- Contacto -->
+      <div id="contacto" style="display:none">
+        <h3>Contáctanos</h3>
+        <form id="contactForm">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input required placeholder="Tu nombre" id="cname" style="flex:1;padding:8px;border-radius:8px;border:1px solid #ddd" />
+            <input required placeholder="Curso (ej. 5°A)" id="ccurso" style="width:130px;padding:8px;border-radius:8px;border:1px solid #ddd" />
+          </div>
+          <textarea id="cmsg" placeholder="Tu mensaje o dibujo (describe)" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid #ddd"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button type="submit" class="cta">Enviar</button>
+            <button type="button" id="viewMsgs" style="padding:10px;border-radius:8px">Ver mensajes</button>
+          </div>
+        </form>
+        <div id="msgs" style="margin-top:12px"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>© Aprendamos Juntos — Diseñado para alumnos de 5° primaria • Abre este archivo en tu navegador</footer>
+
+  <script>
+    // Navegación
+    const sections = { aprende: document.getElementById('aprende'),
+                       juega: document.getElementById('juega'),
+                       planeta: document.getElementById('planeta'),
+                       valores: document.getElementById('valores'),
+                       noticias: document.getElementById('noticias'),
+                       galeria: document.getElementById('galeria'),
+                       contacto: document.getElementById('contacto') };
+    const navMap = {
+      btnAprende: 'aprende', btnJuega: 'juega', btnPlaneta: 'planeta',
+      btnValores: 'valores', btnNoticias: 'noticias', btnGaleria: 'galeria', btnContact: 'contacto'
+    };
+    Object.keys(navMap).forEach(id=>{
+      const btn = document.getElementById(id);
+      btn.addEventListener('click', ()=>{ setActive(btn); showSection(navMap[id]); });
+    });
+    function setActive(btn){
+      document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    function showSection(key){
+      Object.values(sections).forEach(e=>e.style.display='none');
+      sections[key].style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.getElementById('btnStart').addEventListener('click', ()=>{ document.getElementById('btnAprende').click(); });
+
+    // Lecciones simples (demo)
+    function openLesson(id){
+      const lesson = document.getElementById('lesson');
+      lesson.innerHTML = '';
+      if(id==='mat'){
+        lesson.innerHTML = `
+          <h3>Matemáticas — Sumas divertidas</h3>
+          <p>Resuelve: ¿Cuánto es 27 + 15?</p>
+          <div><button onclick="alert('¡Correcto! 42 ✅')">42</button>
+          <button onclick="alert('Intenta otra vez')">40</button></div>`;
+      } else if(id==='esp'){
+        lesson.innerHTML = `<h3>Español — Palabras con ñ</h3><p>Escribe 3 palabras que tengan la letra "ñ".</p>
+        <textarea placeholder="ej: niño, cañón, piñata" style="width:100%;height:80px"></textarea>`;
+      } else if(id==='cien'){
+        lesson.innerHTML = `<h3>Ciencias — Plantas</h3><p>Las plantas necesitan agua, luz y tierra para vivir. ¿Puedes regar una planta hoy?</p>`;
+      } else {
+        lesson.innerHTML = `<h3>Historia — Personajes</h3><p>Investiga un personaje importante y cuéntalo en clase.</p>`;
+      }
+    }
+
+    /* ---------------- Quiz simple ---------------- */
+    const quizQuestions = [
+      {q:'¿Cuántos centímetros tiene un metro?', a:['50','100','10','1'], ok:1},
+      {q:'¿Cuál es la letra que falta en "a__r"? (árbol)', a:['rb','rb?','rb','rb'], ok:2},
+      {q:'¿El agua es un recurso?', a:['Sí','No'], ok:0}
+    ];
+    function showQuiz(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      let idx = 0, score = 0;
+      const box = document.createElement('div'); box.className='card-small center';
+      const qEl = document.createElement('div'); qEl.style.fontWeight='700';
+      const ansEl = document.createElement('div'); ansEl.className='quiz-answers';
+      const scoreEl = document.createElement('div'); scoreEl.className='muted scores';
+      box.append(qEl, ansEl, scoreEl);
+      area.append(box);
+      function render(){
+        const cur = quizQuestions[idx];
+        qEl.textContent = cur.q;
+        ansEl.innerHTML = '';
+        cur.a.forEach((t,i)=>{
+          const b = document.createElement('button'); b.textContent = t;
+          b.addEventListener('click', ()=>{
+            if(i===cur.ok){ b.classList.add('correct'); score++; scoreEl.textContent = '✅ Aciertos: '+score; }
+            else{ b.classList.add('wrong'); scoreEl.textContent = '✅ Aciertos: '+score; }
+            setTimeout(()=>{ idx++; if(idx<quizQuestions.length) render(); else showResult(); },700);
+          });
+          ansEl.appendChild(b);
+        });
+        scoreEl.textContent = '✅ Aciertos: '+score;
+      }
+      function showResult(){
+        box.innerHTML = `<h3>¡Juego terminado!</h3><p class="muted">Aciertos: ${score} de ${quizQuestions.length}</p>
+          <button class="cta" onclick="showQuiz()">Volver a jugar</button>`;
+      }
+      render();
+    }
+
+    /* -------------- Memory game (emoji pairs) -------------- */
+    function startMemory(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      const emojis = ['🍎','🚗','⚽️','🐶','🌟','🎈','🍎','🚗','⚽️','🐶','🌟','🎈'];
+      shuffle(emojis);
+      const board = document.createElement('div'); board.className='board';
+      area.append(board);
+      let first=null, lock=false, matches=0;
+      emojis.forEach((em,i)=>{
+        const c = document.createElement('div'); c.className='card-game'; c.dataset.emoji=em; c.textContent='❓';
+        c.addEventListener('click', ()=>{
+          if(lock||c.classList.contains('matched')) return;
+          reveal(c);
+          if(!first){ first=c; } else {
+            if(first.dataset.emoji===c.dataset.emoji){
+              first.classList.add('matched'); c.classList.add('matched');
+              matches+=1;
+              first=null;
+              if(matches===emojis.length/2){ board.innerHTML=`<h3>¡Ganaste! 🎉</h3><button class="cta" onclick="startMemory()">Jugar otra vez</button>`; }
+            } else {
+              lock=true;
+              setTimeout(()=>{ hide(first); hide(c); first=null; lock=false; },700);
+            }
+          }
+        });
+        board.append(c);
+      });
+      function reveal(el){ el.classList.add('flipped'); el.textContent = el.dataset.emoji; }
+      function hide(el){ el.classList.remove('flipped'); el.textContent='❓'; }
+      function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+    }
+
+    /* ------------- Drag & Drop recycle -------------- */
+    function startRecycle(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      const items = ['🍌','🥛','📦','♻️','🍃','🔋'];
+      const labels = { organico:'Orgánico', reciclable:'Reciclable', peligroso:'Peligroso' };
+      const mapping = { '🍌':'organico', '🥛':'reciclable', '📦':'reciclable', '♻️':'reciclable', '🍃':'organico', '🔋':'peligroso' };
+      const board = document.createElement('div'); board.innerHTML = '<div style="display:flex;gap:12px"><div style="flex:1"><h4>Objetos</h4></div><div style="flex:2"><h4>Canastas</h4></div></div>';
+      area.append(board);
+      const left = document.createElement('div'); left.className='dzone';
+      items.forEach(it=>{
+        const el = document.createElement('div'); el.className='item'; el.textContent=it; el.draggable=true;
+        el.addEventListener('dragstart', ev=>{ ev.dataTransfer.setData('text/plain', it); });
+        left.append(el);
+      });
+      const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
+      Object.keys(labels).forEach(k=>{
+        const d = document.createElement('div'); d.className='drop'; d.dataset.type=k; d.innerHTML=`<strong>${labels[k]}</strong>`;
+        d.addEventListener('dragover', ev=>ev.preventDefault());
+        d.addEventListener('drop', ev=>{
+          ev.preventDefault();
+          const it = ev.dataTransfer.getData('text/plain');
+          if(mapping[it]===d.dataset.type){
+            const e = document.createElement('div'); e.className='item'; e.textContent=it;
+            d.append(e);
+            ev.target.style.border='2px solid #6ccf6b';
+          } else {
+            flash(d,'red'); // incorrecto
+          }
+        });
+        right.append(d);
+      });
+      board.append(left,right);
+      area.append(board);
+      function flash(el,color){ const o=el.style.border; el.style.border='2px solid '+color; setTimeout(()=>el.style.border=o,600); }
+    }
+
+    /* -------------- Gallery (localStorage) -------------- */
+    const galleryArea = document.getElementById('galleryArea');
+    const upload = document.getElementById('imgUpload');
+    upload.addEventListener('change', e=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const data = r.result;
+        saveImage(data);
+        renderGallery();
+      };
+      r.readAsDataURL(f);
+      upload.value='';
+    });
+    function saveImage(data){ const arr = JSON.parse(localStorage.getItem('aj_gallery')||'[]'); arr.push(data); localStorage.setItem('aj_gallery',JSON.stringify(arr)); }
+    function renderGallery(){
+      galleryArea.innerHTML=''; const arr = JSON.parse(localStorage.getItem('aj_gallery')||'[]');
+      arr.forEach(d=>{
+        const img = document.createElement('img'); img.src=d; img.className='thumb';
+        galleryArea.append(img);
+      });
+    }
+    renderGallery();
+
+    /* -------------- Contact (localStorage messages) -------------- */
+    const contactForm = document.getElementById('contactForm');
+    const msgsDiv = document.getElementById('msgs');
+    contactForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const n = document.getElementById('cname').value.trim();
+      const c = document.getElementById('ccurso').value.trim();
+      const m = document.getElementById('cmsg').value.trim();
+      if(!n||!m) return alert('Completa nombre y mensaje');
+      const arr = JSON.parse(localStorage.getItem('aj_msgs')||'[]');
+      arr.push({name:n,curso:c,msg:m,at:new Date().toLocaleString()});
+      localStorage.setItem('aj_msgs', JSON.stringify(arr));
+      contactForm.reset();
+      alert('Mensaje enviado. Gracias 😊');
+    });
+    document.getElementById('viewMsgs').addEventListener('click', ()=>{
+      const arr = JSON.parse(localStorage.getItem('aj_msgs')||'[]');
+      msgsDiv.innerHTML = arr.length? arr.map(x=>`<div style="border-radius:8px;padding:8px;margin-bottom:6px;background:#fff"><strong>${escapeHtml(x.name)} ${x.curso? '('+escapeHtml(x.curso)+')':''}</strong><div class="muted">${escapeHtml(x.at)}</div><p>${escapeHtml(x.msg)}</p></div>`).join('') : '<p class="muted">Aún no hay mensajes.</p>';
+    });
+    function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    // Inicial: mostrar aprende
+    showSection('aprende');
+
+    // small utilities
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+    // Load saved news / optional extras
+    (function loadExtras(){
+      const savedNews = JSON.parse(localStorage.getItem('aj_news')||'null');
+      if(savedNews){ document.getElementById('newsList').innerHTML = savedNews.map(n=>`<p>${n}</p>`).join(''); }
+    })();
+
+  </script>
+</body>
+</html>
+``` 
+
+Instrucciones rápidas:
+- Guarda el archivo en c:\Users\HP\Desktop\LIVE\aprendamos_juntos.html
+- Ábrelo con el navegador (doble clic) para usar la aplicación.
+- Todas las actividades guardan datos en localStorage (galería y mensajes). Si quieres versión con servidor, base de datos o .exe/instalador, indícame qué prefieres.// filepath: c:\Users\HP\Desktop\LIVE\aprendamos_juntos.html
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aprendamos Juntos — 5° primaria</title>
+  <style>
+    :root{
+      --bg:#f6fbff; --card:#ffffff; --accent:#3aa3ff;
+      --accent2:#ff6fb6; --txt:#13324a; --muted:#6b7b8a;
+      --radius:14px; --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box;font-family: "Segoe UI", Roboto, system-ui, Arial;}
+    body{margin:0;background:
+      radial-gradient(1200px 600px at 10% 10%, #eaf7ff 0%, transparent 15%),
+      radial-gradient(900px 500px at 90% 90%, #ffeaf3 0%, transparent 12%),
+      var(--bg); color:var(--txt); -webkit-font-smoothing:antialiased;}
+    header{display:flex;align-items:center;gap:16px;padding:18px 24px;}
+    .logo{width:68px;height:68px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(51,122,193,0.18);}
+    h1{margin:0;font-size:20px}
+    .tag{color:var(--muted);font-size:13px}
+
+    main{padding:18px;display:grid;grid-template-columns:360px 1fr;gap:18px;max-width:1200px;margin:20px auto;}
+    nav.card, .panel.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(20,30,50,0.06);}
+    nav.card{position:sticky;top:18px;height: fit-content;}
+    nav button{display:flex;align-items:center;gap:12px;width:100%;padding:10px;border-radius:10px;border:0;background:transparent;font-weight:600;color:var(--txt);cursor:pointer;margin-bottom:8px}
+    nav button:hover{background:linear-gradient(90deg,rgba(58,163,255,0.08),rgba(255,111,182,0.04));}
+    .active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff !important;box-shadow:0 8px 26px rgba(58,163,255,0.18);}
+
+    .panel.card{padding:12px 16px;}
+    .hero{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px;border-radius:12px;background:linear-gradient(90deg,rgba(58,163,255,0.06),rgba(255,111,182,0.03));margin-bottom:12px}
+    .hero .left{max-width:70%}
+    .cta{background:var(--accent);color:#fff;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(58,163,255,0.14)}
+    section{margin-top:10px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+
+    .card-small{background:var(--glass);backdrop-filter:blur(6px);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.5)}
+    .small-title{font-weight:700;margin:0 0 8px 0}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Quiz & Games styles */
+    .center{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
+    .quiz-answers button{display:block;margin:8px 0;width:100%;padding:10px;border-radius:10px;border:2px solid rgba(0,0,0,0.06);cursor:pointer;background:#fff;text-align:left}
+    .correct{background:#dff6e1;border-color:#64c28a}
+    .wrong{background:#ffd8d8;border-color:#ff5c5c}
+    .scores{display:flex;gap:8px;align-items:center}
+
+    /* Memory game */
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}
+    .card-game{aspect-ratio:1/1;border-radius:8px;background:#fff;display:grid;place-items:center;font-size:28px;cursor:pointer;box-shadow:0 6px 10px rgba(20,30,50,0.06)}
+    .flipped{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+
+    /* Drag & drop */
+    .dzone{display:flex;gap:12px;flex-wrap:wrap}
+    .item{padding:8px 12px;border-radius:8px;background:#fff;border:1px dashed rgba(20,30,50,0.06);cursor:grab}
+    .drop{min-height:80px;border-radius:10px;padding:10px;background:rgba(255,255,255,0.6);border:2px dashed rgba(0,0,0,0.06)}
+
+    /* Gallery */
+    .gallery{display:flex;gap:8px;flex-wrap:wrap}
+    .thumb{width:120px;height:80px;border-radius:8px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 16px rgba(20,30,50,0.08)}
+
+    footer{max-width:1200px;margin:22px auto;text-align:center;color:var(--muted);font-size:13px;padding-bottom:40px}
+    @media (max-width:880px){ main{grid-template-columns:1fr; padding:12px} nav.card{position:relative} .logo{width:54px;height:54px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">AJ</div>
+    <div>
+      <h1>Aprendamos Juntos</h1>
+      <div class="tag">5° primaria · Aprende jugando</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="card" aria-label="Navegación principal">
+      <button id="btnAprende" class="active">📘 Aprende</button>
+      <button id="btnJuega">🎮 Juega y Aprende</button>
+      <button id="btnPlaneta">🌎 Cuidemos el Planeta</button>
+      <button id="btnValores">💖 Valores</button>
+      <button id="btnNoticias">📰 Noticias</button>
+      <button id="btnGaleria">🖼️ Galería</button>
+      <button id="btnContact">✉️ Contáctanos</button>
+    </nav>
+
+    <section class="panel card" id="panel">
+      <div class="hero">
+        <div class="left">
+          <h2>Bienvenidos a Aprendamos Juntos</h2>
+          <p class="muted">Un lugar para aprender, jugar y cuidar el planeta. Explora las secciones con actividades interactivas.</p>
+        </div>
+        <div class="right">
+          <button class="cta" id="btnStart">Empezar</button>
+        </div>
+      </div>
+
+      <!-- Aprende -->
+      <div id="aprende">
+        <div class="cards">
+          <div class="card-small">
+            <p class="small-title">Matemáticas</p>
+            <p class="muted">Juegos para sumar, restar y practicar problemas.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('mat')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Español</p>
+            <p class="muted">Lecturas cortas y ejercicios de ortografía.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('esp')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Ciencias</p>
+            <p class="muted">Experimentos fáciles y curiosidades del mundo.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('cien')">Ver</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Historia</p>
+            <p class="muted">Narraciones cortas sobre personajes y hechos importantes.</p>
+            <button class="cta" style="margin-top:8px" onclick="openLesson('hist')">Ver</button>
+          </div>
+        </div>
+
+        <section id="lesson" style="margin-top:12px"></section>
+      </div>
+
+      <!-- Juega y Aprende -->
+      <div id="juega" style="display:none">
+        <div class="cards">
+          <div class="card-small">
+            <p class="small-title">Quiz rápido</p>
+            <p class="muted">Contesta preguntas y gana estrellas.</p>
+            <button class="cta" onclick="showQuiz()">Jugar</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Memoria con emojis</p>
+            <p class="muted">Encuentra las parejas.</p>
+            <button class="cta" onclick="startMemory()">Jugar</button>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Recicla (arrastrar)</p>
+            <p class="muted">Arrastra los objetos a la canasta correcta.</p>
+            <button class="cta" onclick="startRecycle()">Jugar</button>
+          </div>
+        </div>
+
+        <div id="juegoArea" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Planeta -->
+      <div id="planeta" style="display:none">
+        <h3>Cómo cuidar la naturaleza</h3>
+        <ul>
+          <li>Separa la basura: orgánico, reciclable y rechazo.</li>
+          <li>Ahorra agua cerrando la llave cuando no la uses.</li>
+          <li>Planta un árbol o una planta en casa.</li>
+        </ul>
+        <div style="margin-top:12px" class="cards">
+          <div class="card-small">
+            <p class="small-title">Reto: Ahorra agua 7 días</p>
+            <p class="muted">Pequeñas acciones cada día.</p>
+          </div>
+          <div class="card-small">
+            <p class="small-title">Manualidades con reciclaje</p>
+            <p class="muted">Convierte materiales en juguetes o arte.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valores -->
+      <div id="valores" style="display:none">
+        <h3>Valores que practicamos</h3>
+        <div class="cards">
+          <div class="card-small"><p class="small-title">Respeto</p><p class="muted">Trata a los demás como te gustaría que te traten.</p></div>
+          <div class="card-small"><p class="small-title">Amistad</p><p class="muted">Apoya a tus compañeros y comparte.</p></div>
+          <div class="card-small"><p class="small-title">Responsabilidad</p><p class="muted">Cumple tus tareas y ayuda en casa.</p></div>
+          <div class="card-small"><p class="small-title">Honestidad</p><p class="muted">Di la verdad y sé justo.</p></div>
+        </div>
+      </div>
+
+      <!-- Noticias -->
+      <div id="noticias" style="display:none">
+        <h3>Noticias escolares</h3>
+        <div id="newsList">
+          <p>📅 Feria de ciencias - 12 de diciembre</p>
+          <p>🏆 Concurso de lectura - Inscripciones abiertas</p>
+        </div>
+      </div>
+
+      <!-- Galería -->
+      <div id="galeria" style="display:none">
+        <h3>Galería de la escuela</h3>
+        <input type="file" id="imgUpload" accept="image/*" />
+        <div class="gallery" id="galleryArea"></div>
+      </div>
+
+      <!-- Contacto -->
+      <div id="contacto" style="display:none">
+        <h3>Contáctanos</h3>
+        <form id="contactForm">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input required placeholder="Tu nombre" id="cname" style="flex:1;padding:8px;border-radius:8px;border:1px solid #ddd" />
+            <input required placeholder="Curso (ej. 5°A)" id="ccurso" style="width:130px;padding:8px;border-radius:8px;border:1px solid #ddd" />
+          </div>
+          <textarea id="cmsg" placeholder="Tu mensaje o dibujo (describe)" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid #ddd"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button type="submit" class="cta">Enviar</button>
+            <button type="button" id="viewMsgs" style="padding:10px;border-radius:8px">Ver mensajes</button>
+          </div>
+        </form>
+        <div id="msgs" style="margin-top:12px"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>© Aprendamos Juntos — Diseñado para alumnos de 5° primaria • Abre este archivo en tu navegador</footer>
+
+  <script>
+    // Navegación
+    const sections = { aprende: document.getElementById('aprende'),
+                       juega: document.getElementById('juega'),
+                       planeta: document.getElementById('planeta'),
+                       valores: document.getElementById('valores'),
+                       noticias: document.getElementById('noticias'),
+                       galeria: document.getElementById('galeria'),
+                       contacto: document.getElementById('contacto') };
+    const navMap = {
+      btnAprende: 'aprende', btnJuega: 'juega', btnPlaneta: 'planeta',
+      btnValores: 'valores', btnNoticias: 'noticias', btnGaleria: 'galeria', btnContact: 'contacto'
+    };
+    Object.keys(navMap).forEach(id=>{
+      const btn = document.getElementById(id);
+      btn.addEventListener('click', ()=>{ setActive(btn); showSection(navMap[id]); });
+    });
+    function setActive(btn){
+      document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    function showSection(key){
+      Object.values(sections).forEach(e=>e.style.display='none');
+      sections[key].style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.getElementById('btnStart').addEventListener('click', ()=>{ document.getElementById('btnAprende').click(); });
+
+    // Lecciones simples (demo)
+    function openLesson(id){
+      const lesson = document.getElementById('lesson');
+      lesson.innerHTML = '';
+      if(id==='mat'){
+        lesson.innerHTML = `
+          <h3>Matemáticas — Sumas divertidas</h3>
+          <p>Resuelve: ¿Cuánto es 27 + 15?</p>
+          <div><button onclick="alert('¡Correcto! 42 ✅')">42</button>
+          <button onclick="alert('Intenta otra vez')">40</button></div>`;
+      } else if(id==='esp'){
+        lesson.innerHTML = `<h3>Español — Palabras con ñ</h3><p>Escribe 3 palabras que tengan la letra "ñ".</p>
+        <textarea placeholder="ej: niño, cañón, piñata" style="width:100%;height:80px"></textarea>`;
+      } else if(id==='cien'){
+        lesson.innerHTML = `<h3>Ciencias — Plantas</h3><p>Las plantas necesitan agua, luz y tierra para vivir. ¿Puedes regar una planta hoy?</p>`;
+      } else {
+        lesson.innerHTML = `<h3>Historia — Personajes</h3><p>Investiga un personaje importante y cuéntalo en clase.</p>`;
+      }
+    }
+
+    /* ---------------- Quiz simple ---------------- */
+    const quizQuestions = [
+      {q:'¿Cuántos centímetros tiene un metro?', a:['50','100','10','1'], ok:1},
+      {q:'¿Cuál es la letra que falta en "a__r"? (árbol)', a:['rb','rb?','rb','rb'], ok:2},
+      {q:'¿El agua es un recurso?', a:['Sí','No'], ok:0}
+    ];
+    function showQuiz(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      let idx = 0, score = 0;
+      const box = document.createElement('div'); box.className='card-small center';
+      const qEl = document.createElement('div'); qEl.style.fontWeight='700';
+      const ansEl = document.createElement('div'); ansEl.className='quiz-answers';
+      const scoreEl = document.createElement('div'); scoreEl.className='muted scores';
+      box.append(qEl, ansEl, scoreEl);
+      area.append(box);
+      function render(){
+        const cur = quizQuestions[idx];
+        qEl.textContent = cur.q;
+        ansEl.innerHTML = '';
+        cur.a.forEach((t,i)=>{
+          const b = document.createElement('button'); b.textContent = t;
+          b.addEventListener('click', ()=>{
+            if(i===cur.ok){ b.classList.add('correct'); score++; scoreEl.textContent = '✅ Aciertos: '+score; }
+            else{ b.classList.add('wrong'); scoreEl.textContent = '✅ Aciertos: '+score; }
+            setTimeout(()=>{ idx++; if(idx<quizQuestions.length) render(); else showResult(); },700);
+          });
+          ansEl.appendChild(b);
+        });
+        scoreEl.textContent = '✅ Aciertos: '+score;
+      }
+      function showResult(){
+        box.innerHTML = `<h3>¡Juego terminado!</h3><p class="muted">Aciertos: ${score} de ${quizQuestions.length}</p>
+          <button class="cta" onclick="showQuiz()">Volver a jugar</button>`;
+      }
+      render();
+    }
+
+    /* -------------- Memory game (emoji pairs) -------------- */
+    function startMemory(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      const emojis = ['🍎','🚗','⚽️','🐶','🌟','🎈','🍎','🚗','⚽️','🐶','🌟','🎈'];
+      shuffle(emojis);
+      const board = document.createElement('div'); board.className='board';
+      area.append(board);
+      let first=null, lock=false, matches=0;
+      emojis.forEach((em,i)=>{
+        const c = document.createElement('div'); c.className='card-game'; c.dataset.emoji=em; c.textContent='❓';
+        c.addEventListener('click', ()=>{
+          if(lock||c.classList.contains('matched')) return;
+          reveal(c);
+          if(!first){ first=c; } else {
+            if(first.dataset.emoji===c.dataset.emoji){
+              first.classList.add('matched'); c.classList.add('matched');
+              matches+=1;
+              first=null;
+              if(matches===emojis.length/2){ board.innerHTML=`<h3>¡Ganaste! 🎉</h3><button class="cta" onclick="startMemory()">Jugar otra vez</button>`; }
+            } else {
+              lock=true;
+              setTimeout(()=>{ hide(first); hide(c); first=null; lock=false; },700);
+            }
+          }
+        });
+        board.append(c);
+      });
+      function reveal(el){ el.classList.add('flipped'); el.textContent = el.dataset.emoji; }
+      function hide(el){ el.classList.remove('flipped'); el.textContent='❓'; }
+      function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+    }
+
+    /* ------------- Drag & Drop recycle -------------- */
+    function startRecycle(){
+      const area = document.getElementById('juegoArea'); area.innerHTML = '';
+      const items = ['🍌','🥛','📦','♻️','🍃','🔋'];
+      const labels = { organico:'Orgánico', reciclable:'Reciclable', peligroso:'Peligroso' };
+      const mapping = { '🍌':'organico', '🥛':'reciclable', '📦':'reciclable', '♻️':'reciclable', '🍃':'organico', '🔋':'peligroso' };
+      const board = document.createElement('div'); board.innerHTML = '<div style="display:flex;gap:12px"><div style="flex:1"><h4>Objetos</h4></div><div style="flex:2"><h4>Canastas</h4></div></div>';
+      area.append(board);
+      const left = document.createElement('div'); left.className='dzone';
+      items.forEach(it=>{
+        const el = document.createElement('div'); el.className='item'; el.textContent=it; el.draggable=true;
+        el.addEventListener('dragstart', ev=>{ ev.dataTransfer.setData('text/plain', it); });
+        left.append(el);
+      });
+      const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
+      Object.keys(labels).forEach(k=>{
+        const d = document.createElement('div'); d.className='drop'; d.dataset.type=k; d.innerHTML=`<strong>${labels[k]}</strong>`;
+        d.addEventListener('dragover', ev=>ev.preventDefault());
+        d.addEventListener('drop', ev=>{
+          ev.preventDefault();
+          const it = ev.dataTransfer.getData('text/plain');
+          if(mapping[it]===d.dataset.type){
+            const e = document.createElement('div'); e.className='item'; e.textContent=it;
+            d.append(e);
+            ev.target.style.border='2px solid #6ccf6b';
+          } else {
+            flash(d,'red'); // incorrecto
+          }
+        });
+        right.append(d);
+      });
+      board.append(left,right);
+      area.append(board);
+      function flash(el,color){ const o=el.style.border; el.style.border='2px solid '+color; setTimeout(()=>el.style.border=o,600); }
+    }
+
+    /* -------------- Gallery (localStorage) -------------- */
+    const galleryArea = document.getElementById('galleryArea');
+    const upload = document.getElementById('imgUpload');
+    upload.addEventListener('change', e=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const data = r.result;
+        saveImage(data);
+        renderGallery();
+      };
+      r.readAsDataURL(f);
+      upload.value='';
+    });
+    function saveImage(data){ const arr = JSON.parse(localStorage.getItem('aj_gallery')||'[]'); arr.push(data); localStorage.setItem('aj_gallery',JSON.stringify(arr)); }
+    function renderGallery(){
+      galleryArea.innerHTML=''; const arr = JSON.parse(localStorage.getItem('aj_gallery')||'[]');
+      arr.forEach(d=>{
+        const img = document.createElement('img'); img.src=d; img.className='thumb';
+        galleryArea.append(img);
+      });
+    }
+    renderGallery();
+
+    /* -------------- Contact (localStorage messages) -------------- */
+    const contactForm = document.getElementById('contactForm');
+    const msgsDiv = document.getElementById('msgs');
+    contactForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const n = document.getElementById('cname').value.trim();
+      const c = document.getElementById('ccurso').value.trim();
+      const m = document.getElementById('cmsg').value.trim();
+      if(!n||!m) return alert('Completa nombre y mensaje');
+      const arr = JSON.parse(localStorage.getItem('aj_msgs')||'[]');
+      arr.push({name:n,curso:c,msg:m,at:new Date().toLocaleString()});
+      localStorage.setItem('aj_msgs', JSON.stringify(arr));
+      contactForm.reset();
+      alert('Mensaje enviado. Gracias 😊');
+    });
+    document.getElementById('viewMsgs').addEventListener('click', ()=>{
+      const arr = JSON.parse(localStorage.getItem('aj_msgs')||'[]');
+      msgsDiv.innerHTML = arr.length? arr.map(x=>`<div style="border-radius:8px;padding:8px;margin-bottom:6px;background:#fff"><strong>${escapeHtml(x.name)} ${x.curso? '('+escapeHtml(x.curso)+')':''}</strong><div class="muted">${escapeHtml(x.at)}</div><p>${escapeHtml(x.msg)}</p></div>`).join('') : '<p class="muted">Aún no hay mensajes.</p>';
+    });
+    function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    // Inicial: mostrar aprende
+    showSection('aprende');
+
+    // small utilities
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+    // Load saved news / optional extras
+    (function loadExtras(){
+      const savedNews = JSON.parse(localStorage.getItem('aj_news')||'null');
+      if(savedNews){ document.getElementById('newsList').innerHTML = savedNews.map(n=>`<p>${n}</p>`).join(''); }
+    })();
+
+  </script>
+</body>
+</html>
+``` 
+
+Instrucciones rápidas:
+- Guarda el archivo en c:\Users\HP\Desktop\LIVE\aprendamos_juntos.html
+- Ábrelo con el navegador (doble clic) para usar la aplicación.
+- Todas las actividades guardan datos en localStorage (galería y mensajes). Si quieres versión con servidor, base de datos o .exe/instalador, indícame qué prefieres.
